@@ -7,9 +7,9 @@ import csv
 #get all genes names from one patient to create header of all_data file
 header=['Patient_id']
 def get_header():
-    csv_file='/home/syrine/Projet Myelome/data/900-04_TPM.csv'
+    csv_file='/home/irit/Documents/Projet Myelome/data/900-04_TPM.csv'
     example=pd.read_csv(csv_file)
-    patient_id=csv_file.split('_')[0][33:] #get patient id from csv file name
+    patient_id=csv_file.split('_')[0][41:] #get patient id from csv file name
     example[['GeneID', 'Patient '+patient_id]]=example['GeneID\t'+patient_id].str.split("\t", expand = True)
     example=example.drop('GeneID\t'+patient_id, axis=1) #separate the two columns
     genes=example['GeneID'].values.tolist()
@@ -44,7 +44,7 @@ def get_patient_response(patient_id):
 
 
 #Create one big matrix: lines are patients, columns are genes, last column is the label (MRD+ or MRD-)
-directory = '/home/syrine/Projet Myelome/data'
+directory = '/home/irit/Documents/Projet Myelome/data'
 pathlist = Path(directory).glob('*.csv')
 headerList=get_header()
 not_found=0
@@ -58,7 +58,7 @@ def get_all_data ():
         res=[]
         csv_file=str(path)
         data=pd.read_csv(csv_file)
-        patient_id=csv_file.split('_')[0][33:]
+        patient_id=csv_file.split('_')[0][41:]
         genes_count=data['GeneID\t'+patient_id].str.split("\t", expand = True)[1].values
         if patient_id[0]=='T':
             if (patient_id not in dict.keys()):
